@@ -1,0 +1,40 @@
+version: "3.5"
+
+
+services:
+  db:
+    container_name: postgres
+    restart: always
+    image: postgres:12
+    environment:
+      POSTGRES_USER: $PG_USER
+      POSTGRES_DB: $PG_DB
+      POSTGRES_PASSWORD: $PG_PASSWORD
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - botnet
+
+  adminer:
+    depends_on:
+      - db
+    container_name: pg_adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - botnet
+
+
+volumes:
+  pg_data:
+    name: pg_volume
+    driver: local
+
+
+networks:
+  botnet:
+    driver: bridge

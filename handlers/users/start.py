@@ -4,8 +4,19 @@ import logging
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 
+import keyboards
+from filters import IsUserExist
 from loader import dp
 from states import UserForm
+
+
+@dp.message_handler(CommandStart(), IsUserExist())
+async def bot_start(message: types.Message):
+    await message.answer(
+        "Привет, обезьяний воин! Мы помним тебя.",
+        reply_markup=keyboards.default.main_menu
+    )
+    await message.answer_sticker("CAACAgIAAxkBAANGYDmDFX728Xxi8jfplD7pMOf00ssAAh4DAAJtsEIDqAjz6NCOimgeBA")
 
 
 @dp.message_handler(CommandStart())

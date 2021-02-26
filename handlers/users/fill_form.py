@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 
 import keyboards
-from loader import dp
+from loader import dp, db
 from states import UserForm
 
 
@@ -57,9 +57,13 @@ async def read_sex(message: Message, state: FSMContext):
         return
 
     data = await state.get_data()
-    data.update(sex=sex)
 
-    # db.save_user(data)
+    await db.add_user(
+        sex=sex,
+        username=message.from_user.username,
+        id=message.from_user.id,
+        **data
+    )
 
     await message.answer(
         "Поздравляем! Теперь ты обезьяний воин!",

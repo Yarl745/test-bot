@@ -40,6 +40,37 @@ class Database:
         await self.pool.execute(sql)
 
 
+    async def create_table_hour_clicks(self):
+        logging.info(f"Create HourClicks table (if not exist)")
+
+        sql = """
+            CREATE TABLE IF NOT EXISTS HourClicks(
+               saving_date TIMESTAMP PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
+               clicks SMALLINT 
+            );
+        """
+        await self.pool.execute(sql)
+
+
+    async def get_24_hour_clicks(self) -> list:
+        logging.info(f"Get last 24 hours clicks statistic")
+
+        sql = """
+            SELECT * FROM HourClicks
+                WHERE saving_date > NOW() - INTERVAL '24 hours';
+        """
+        return await self.pool.fetch(sql)
+
+
+    async def set_hour_clicks(self, clicks: int):
+        logging.info(f"Set hour clicks: {clicks}")
+
+        sql = """
+            INSERT INTO HourClicks(clicks) VALUES ($1);
+        """
+        await self.pool.execute(sql, clicks)
+
+
     async def add_user(self, **kwargs):
         logging.info(f"Add new user: {kwargs}")
 
@@ -98,3 +129,19 @@ class Database:
 
     async def is_user_exist(self, user_id):
         return True if await self.get_user_data_by_id(user_id) else False
+
+
+# async def test_hour_clicks_table():
+#     db = await Database.create()
+#
+#     await db.create_table_hour_clicks()
+#
+#     # for i in range(3):
+#     #     await db.set_hour_clicks(120+i)
+#     #     await asyncio.sleep(5+i)
+#
+#     print(await db.get_24_hour_clicks())
+
+
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(test_hour_clicks_table())

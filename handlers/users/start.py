@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from aiogram import types
+from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart, Command
 
 import keyboards
@@ -10,13 +11,14 @@ from loader import dp
 from states import UserForm
 
 
-@dp.message_handler(Command(["start", "menu"]), IsUserExist())
-async def bot_start(message: types.Message):
+@dp.message_handler(Command(["start", "menu"]), IsUserExist(), state="*")
+async def bot_start(message: types.Message, state: FSMContext):
     await message.answer(
         "Привет, обезьяний воин! Мы помним тебя.",
         reply_markup=keyboards.default.main_menu
     )
     await message.answer_sticker("CAACAgIAAxkBAANGYDmDFX728Xxi8jfplD7pMOf00ssAAh4DAAJtsEIDqAjz6NCOimgeBA")
+    await state.finish()
 
 
 @dp.message_handler(CommandStart())

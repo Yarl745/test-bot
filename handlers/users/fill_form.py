@@ -39,7 +39,7 @@ async def read_age(message: Message, state: FSMContext):
 
     await message.answer(
         "Какая ты обезьяна?",
-        reply_markup=keyboards.default.sex
+        reply_markup=keyboards.default.get_sex()
     )
     await UserForm.enter_sex.set()
 

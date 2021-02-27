@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from aiogram import types
-from aiogram.dispatcher.filters.builtin import CommandStart
+from aiogram.dispatcher.filters.builtin import CommandStart, Command
 
 import keyboards
 from filters import IsUserExist
@@ -10,7 +10,7 @@ from loader import dp
 from states import UserForm
 
 
-@dp.message_handler(CommandStart(), IsUserExist())
+@dp.message_handler(Command(["start", "menu"]), IsUserExist())
 async def bot_start(message: types.Message):
     await message.answer(
         "Привет, обезьяний воин! Мы помним тебя.",

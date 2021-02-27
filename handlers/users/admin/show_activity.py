@@ -25,7 +25,7 @@ async def show_activity(message: Message):
     )
 
     now = datetime.now()
-    сurrent_activity = f"Сейчас: {(now-timedelta(minutes=now.minute)).strftime('%H:%M')}-" \
+    сurrent_activity = f"Новое {(now-timedelta(minutes=now.minute)).strftime('%H:%M')}-" \
                        f"{now.strftime('%H:%M')}  —>  {activity_saver.get_count_hour_clicks()}"
 
     await message.answer(

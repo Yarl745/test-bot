@@ -25,6 +25,15 @@ class Database:
         return cls(pool)
 
 
+    async def set_timezone(self):
+        logging.info("Set my Time Zone")
+
+        sql = """
+            ALTER DATABASE test_db SET timezone TO 'EET';    
+        """
+        await self.pool.execute(sql)
+
+
     async def create_table_users(self):
         logging.info("Creat Users Table (if not exist)")
 

@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from data import config
+from utils.db_api.memcache import ActivitySaver
 from utils.db_api.postgresql import Database
 
 bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -12,3 +13,5 @@ dp = Dispatcher(bot, storage=storage)
 
 loop = asyncio.get_event_loop()
 db: Database = loop.run_until_complete(Database.create())
+
+activity_saver = ActivitySaver()

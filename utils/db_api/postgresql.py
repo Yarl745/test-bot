@@ -14,7 +14,7 @@ class Database:
 
     @classmethod
     async def create(cls):
-        logging.info("Connect to Postgresql Database")
+        logging.info(f"Connect to Postgresql Database --> {config.PG_DB}")
 
         pool = await asyncpg.create_pool(
             user=config.PG_USER,
@@ -28,8 +28,8 @@ class Database:
     async def set_timezone(self):
         logging.info("Set my Time Zone")
 
-        sql = """
-            ALTER DATABASE test_db SET timezone TO 'EET';    
+        sql = f"""
+            ALTER DATABASE {config.PG_DB} SET timezone TO 'Europe/Kiev';    
         """
         await self.pool.execute(sql)
 

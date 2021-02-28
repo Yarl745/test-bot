@@ -4,6 +4,7 @@ import logging
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart, Command
+from aiogram.types import ReplyKeyboardRemove
 
 import keyboards
 from filters import IsUserExist
@@ -25,7 +26,7 @@ async def bot_start(message: types.Message, state: FSMContext):
 async def bot_start(message: types.Message):
     logging.info(f"User @{message.from_user.username} starts bot")
 
-    await message.answer(f"Привет, {message.from_user.full_name}!")
+    await message.answer(f"Привет, {message.from_user.full_name}!", reply_markup=ReplyKeyboardRemove())
     await message.answer_sticker("CAACAgIAAxkBAAMGYDloA7-duW0esfV3fMwDGoFgmR8AAv8CAAJtsEIDBKA5qzQCNjceBA")
     await asyncio.sleep(3)
 

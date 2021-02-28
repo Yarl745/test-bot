@@ -41,6 +41,9 @@ async def read_age(message: Message):
     if not age.isdecimal():
         await message.answer("Возраст должен вводиться одним целым числом 🐒")
         return
+    elif len(age) > 3 or int(age) < 0:
+        await message.answer("Кажется ты преврал с возрастом... попробуй ввести настоящий возраст 🐒")
+        return
 
     await db.update_user(user_id=message.from_user.id, age=int(age))
 

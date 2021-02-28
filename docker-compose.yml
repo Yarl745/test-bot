@@ -2,6 +2,21 @@ version: "3.5"
 
 
 services:
+  tgbot:
+    depends_on:
+      - db
+    container_name: bot
+    build:
+      context: .
+    command: python app.py
+    restart: always
+    networks:
+      - botnet
+    env_file:
+      - ".env"
+    volumes:
+    - .:/src
+
   db:
     container_name: postgres
     restart: always
